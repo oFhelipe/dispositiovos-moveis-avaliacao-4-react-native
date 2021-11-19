@@ -1,21 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import Routes from './src/routes/index';
+import { StatusBar } from 'react-native';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import reduxThunk from 'redux-thunk'
+import contatosReducer from './src/store/contatos-redurcer';
+import { Provider } from 'react-redux';
 
+const rootReducer = combineReducers({
+  listaDeContatos: contatosReducer
+})
+
+const store = createStore(rootReducer, applyMiddleware(reduxThunk))
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <StatusBar backgroundColor="#FFF" barStyle='dark-content'/>
+      <Routes />
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
